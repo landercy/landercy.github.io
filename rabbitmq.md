@@ -12,9 +12,13 @@ services:
     networks:
       work_net:
     ports:
+      - '1883:1883'
       - '5672:5672'
       - '15672:15672'
+    volumes:
+      - ./data:/var/lib/rabbitmq
     environment:
+      TZ: Asia/Shanghai
       RABBITMQ_DEFAULT_USER: 'admin'
       RABBITMQ_DEFAULT_PASS: 'Admin123'
 ```
@@ -52,6 +56,7 @@ rabbitmqctl list_queues
 rabbitmqadmin -u {user} -p {password} -V {vhost} declare exchange name={name} type={type}
 rabbitmqadmin -u {user} -p {password} -V {vhost} declare queue name={name}
 rabbitmqadmin -u {user} -p {password} -V {vhost} declare binding source={Exchange} destination={queue} routing_key='{key}'
+
 
 rabbitmq-plugins directories -s
 Plugin archives directory: /opt/rabbitmq/plugins
