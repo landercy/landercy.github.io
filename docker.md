@@ -81,11 +81,38 @@ docker pull n11.vm/alpine
 
 # DOCKERFILE
 
-## TIMEZONE
-
 ```dockerfile
-RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-RUN echo 'Asia/Shanghai' > /etc/timezone
+FROM ubuntu:22.04
+
+RUN apt-get update && apt-get install -y openjdk-11-jdk
+
+WORKDIR /opt
+
+COPY ./opt/ /opt/
+
+EXPOSE 8000
+
+CMD ["bash", "run.sh"]
+```
+
+```yml
+networks:
+  work_net:
+    external: true
+services:
+  app_jdk11:
+    container_name: app_jdk11
+    image: app_jdk11
+    # restart: unless-stopped
+    networks:
+      work_net:
+    ports:
+      - 8000:8000
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ./opt:/opt
+    environment:
+      TZ: Asia/Shanghai
 ```
 
 # COMMAND
