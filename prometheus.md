@@ -149,6 +149,7 @@ receivers:
   - name: email
     email_configs:
       - to: EMAIL
+        send_resolved: true
 
 inhibit_rules:
   - source_match:
